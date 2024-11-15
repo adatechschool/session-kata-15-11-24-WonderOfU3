@@ -69,9 +69,10 @@ let getLatinCharacterList = (string) =>
 let encode = (string) =>
 {
     let tab = getLatinCharacterList(string);
+    let res = "";
     for (let i = 0; i < tab.length; i++)
-        tab[i] = translateLatinCharacter(tab[i]);
-    return (tab);
+        res += translateLatinCharacter(tab[i]) + " ";
+    return (res);
 }
 
 let translateMorseCharacter = (character) =>
@@ -91,9 +92,19 @@ let decode = (string) =>
     for (let i = 0; i < tab.length; i++) {
         if (tab[i][0] === '/') {
             res += " ";
-            tab[i] = tab[i].substring(1);
+            tab[i].length > 1 ? tab[i] = tab[i].substring(1) : i++;
         }
         res += translateMorseCharacter(tab[i]);
     }
     return (res);
 }
+
+document.querySelector('.latin-button').addEventListener('click', () => {
+    document.getElementById('latin-text').innerHTML = "";
+    document.getElementById('latin-text').innerHTML = encode(document.getElementById('latin').value);
+});
+
+document.querySelector('.morse-button').addEventListener('click', () => {
+    document.getElementById('morse-text').innerHTML = "";
+    document.getElementById('morse-text').innerHTML = decode(document.getElementById('morse').value);
+});
